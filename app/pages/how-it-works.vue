@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { Section } from 'lucide-vue-next';
-
-
 
 </script>
 
