@@ -1,0 +1,28 @@
+:root {
+  /* Typography */
+  --zi-font-display: 'Playfair Display', serif;
+  --zi-font-body: 'Outfit', sans-serif;
+
+  /* Primary Brand Colors */
+  --zi-primary: #111827;      /* Ink — headlines, strong UI */
+  --zi-accent: #8B5CF6;       /* Royalty — buttons, highlights */
+  --zi-background: #FFFFFF;   /* Paper — main background */
+
+  /* Neutral Text & Surfaces */
+  --zi-text-primary: #1F2937; /* Body text */
+  --zi-text-secondary: #4B5563; /* Captions, metadata */
+  --zi-border: #E5E7EB;       /* Dividers, card borders */
+  --zi-surface: #FAFAFA;      /* Card backgrounds, subtle fills */
+
+  /* Semantic Status Colors */
+  --zi-success: #10B981;      /* Payouts, success states */
+  --zi-warning: #F59E0B;      /* In-progress, caution */
+  --zi-error: #EF4444;        /* Errors, failed actions */
+
+  /* Optional: Hover & Active States */
+  --zi-accent-hover: #7C3AED;
+  --zi-accent-active: #6D28D9;
+}
+*{
+    transition: all 0.3s ease;
+}

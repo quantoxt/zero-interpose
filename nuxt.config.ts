@@ -7,13 +7,16 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
-    '@nuxtjs/supabase',
     'shadcn-nuxt'
   ],
     css: [
-    "~/assets/css/tailwind.css"
+      "~/assets/css/tailwind.css",
+      "~/assets/css/default.css"
   ],
-  
+  app: {
+    layoutTransition: { name: "layout", mode: "out-in" },
+    pageTransition: { name: "page", mode: "out-in" },
+  },
   shadcn: {
     prefix: '',
     componentDir: './app/components/ui'

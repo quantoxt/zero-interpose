@@ -3,11 +3,7 @@
 </script>
 
 <template>
-    <main>
-        <CustomNavbar />
-        <slot/>
-        <CustomFooter />
-    </main>
+    <div/>
 </template>
 
 <style lang="css" scoped>
