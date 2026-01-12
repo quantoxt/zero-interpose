@@ -94,7 +94,11 @@ const handleCardMouseLeave = (index: number) => {
             </div>
 
             <!-- Step Number (outside overflow-hidden) -->
-            <div class="absolute -top-4 left-8 w-10 h-10 rounded-full flex items-center justify-center text-lg font-black font-(--zi-font-display) z-10 pointer-events-none" style="background-color: #8B5CF6; color: white;">
+            <div
+              class="step-number-badge absolute -top-4 left-8 w-10 h-10 rounded-full flex items-center justify-center text-lg font-black font-(--zi-font-display) z-10 pointer-events-none"
+              style="background-color: #8B5CF6; color: white; animation-delay: calc(0.2s + (var(--step-index, 0) * 0.2s));"
+              :style="{ '--step-index': index }"
+            >
               {{ step.number }}
             </div>
           </div>
@@ -137,5 +141,32 @@ const handleCardMouseLeave = (index: number) => {
 
 .step-card:hover::before {
   opacity: 1;
+}
+
+/* Step Number Badge Animation */
+.step-number-badge {
+  animation: step-badge-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  /* Delay is set inline via CSS var */
+}
+
+@keyframes step-badge-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .step-number-badge {
+    animation: none;
+  }
 }
 </style>

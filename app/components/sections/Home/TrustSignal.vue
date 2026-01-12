@@ -6,15 +6,15 @@ const testimonial = {
 </script>
 
 <template>
-  <section class="relative py-20 sm:py-28 bg-(--zi-background)">
+  <section class="relative py-20 sm:py-28 bg-(--zi-surface)">
     <div class="max-w-4xl mx-auto px-6 lg:px-8">
       <!-- Testimonial Card -->
       <div class="relative p-10 sm:p-16 rounded-3xl border" data-aos="fade-down" style="border-color: var(--zi-border); background: linear-gradient(135deg, #FAFAFA 0%, #FFFFFF 100%);">
         <!-- Decorative Quote Marks -->
-        <div class="absolute top-6 left-8 text-8xl sm:text-9xl leading-none opacity-10 font-(--zi-font-display)" style="color: #8B5CF6;">
+        <div class="absolute top-6 left-8 text-8xl sm:text-9xl leading-none opacity-20 font-(--zi-font-display)" style="color: #8B5CF6;">
           "
         </div>
-        <div class="absolute bottom-6 right-8 text-8xl sm:text-9xl leading-none opacity-10 font-(--zi-font-display)" style="color: #8B5CF6;">
+        <div class="absolute bottom-6 right-8 text-8xl sm:text-9xl leading-none opacity-20 font-(--zi-font-display)" style="color: #8B5CF6;">
           "
         </div>
 

@@ -47,7 +47,7 @@ const navLinks = [
             v-for="link in navLinks"
             :key="link.href"
             :to="link.href"
-            class="group relative text-sm transition-colors duration-200 hover:text-(--zi-accent) relative font-(--zi-font-body) text-(--zi-text-secondary)"
+            class="nav-link group relative text-sm transition-colors duration-200 hover:text-(--zi-accent) relative font-(--zi-font-body) text-(--zi-text-secondary)"
           >
             {{ link.name }}
             <span class="absolute -bottom-1 left-0 w-0 h-0.5 rounded-full transition-all duration-300 group-hover:w-full bg-(--zi-accent)" />
@@ -86,4 +86,13 @@ const navLinks = [
 
 <style lang="css" scoped>
 @reference "tailwindcss";
+
+/* Active state for nav links */
+.nav-link.router-link-active {
+  color: #8B5CF6;
+}
+
+.nav-link.router-link-active span {
+  width: 100%;
+}
 </style>

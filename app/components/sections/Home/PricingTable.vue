@@ -104,12 +104,14 @@ onMounted(() => {
           class="pricing-card-wrapper group relative flex flex-col"
         >
           <!-- Featured Badge -->
-          <div
-            v-if="plan.featured"
-            class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold tracking-wide z-10 pointer-events-none"
-            style="background-color: #8B5CF6;"
-          >
-            MOST POPULAR
+          <div class="absolute -top-3 left-0 right-0 flex justify-center z-10 pointer-events-none">
+            <div
+              v-if="plan.featured"
+              class="featured-badge px-4 py-1 rounded-full text-xs font-bold tracking-wide text-white"
+              style="background-color: #8B5CF6;"
+            >
+              MOST POPULAR
+            </div>
           </div>
 
           <div
@@ -217,5 +219,33 @@ onMounted(() => {
 
 .pricing-card:hover::before {
   opacity: 1;
+}
+
+/* Featured Badge Pulse Animation */
+.featured-badge {
+  animation: featured-badge-pulse 2.5s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+}
+
+@keyframes featured-badge-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(139, 92, 246, 0);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    transform: scale(1);
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .featured-badge {
+    animation: none;
+  }
 }
 </style>
