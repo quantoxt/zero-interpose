@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const pricingCtaRefs = ref<HTMLElement[]>([])
+
 const plans = [
   {
     name: 'Starter',
@@ -50,13 +52,44 @@ const includedFeatures = [
 ]
 
 const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+
+// Cursor spotlight effect for cards
+const cardRefs = ref<(HTMLElement | null)[]>([])
+
+const handleCardMouseMove = (e: MouseEvent, index: number) => {
+  const card = cardRefs.value[index]
+  if (!card) return
+
+  const rect = card.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  const y = e.clientY - rect.top
+
+  card.style.setProperty('--mouse-x', `${x}px`)
+  card.style.setProperty('--mouse-y', `${y}px`)
+}
+
+const handleCardMouseLeave = (index: number) => {
+  const card = cardRefs.value[index]
+  if (!card) return
+  card.style.removeProperty('--mouse-x')
+  card.style.removeProperty('--mouse-y')
+}
+
+// Apply magnetic effect to pricing buttons after mount
+onMounted(() => {
+  pricingCtaRefs.value.forEach((ref) => {
+    if (ref) {
+      useMagnetic({ value: ref }, { strength: 0.25 })
+    }
+  })
+})
 </script>
 
 <template>
   <section class="relative py-20 sm:py-28 bg-(--zi-surface)">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <!-- Section Title -->
-      <div class="text-center mb-16">
+      <div class="text-center mb-16" data-aos="fade-up">
         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 font-(--zi-font-display) text-(--zi-primary)">
           Simple, upfront <span class="text-(--zi-accent)">pricing</span>. No hidden fees.
         </h2>
@@ -68,20 +101,28 @@ const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
         <div
           v-for="(plan, index) in plans"
           :key="index"
-          class="group relative flex flex-col p-8 rounded-2xl border transition-all duration-300"
-          :class="plan.featured
-            ? 'bg-(--zi-primary) text-white border-(--zi-accent) shadow-2xl md:-translate-y-2'
-            : 'bg-(--zi-background) border-(--zi-border) hover:shadow-xl hover:-translate-y-1'"
+          class="pricing-card-wrapper group relative flex flex-col"
         >
           <!-- Featured Badge -->
           <div
             v-if="plan.featured"
-            class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold tracking-wide"
+            class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold tracking-wide z-10 pointer-events-none"
             style="background-color: #8B5CF6;"
           >
             MOST POPULAR
           </div>
 
+          <div
+            :ref="(el) => { if (el) cardRefs[index] = el as HTMLElement }"
+            class="pricing-card relative p-8 rounded-2xl border transition-all duration-300 overflow-hidden flex-1 flex flex-col"
+            :class="plan.featured
+              ? 'bg-(--zi-primary) text-white border-(--zi-accent) shadow-2xl md:-translate-y-2'
+              : 'bg-(--zi-background) border-(--zi-border) hover:shadow-xl hover:-translate-y-1'"
+            @mousemove="handleCardMouseMove($event, index)"
+            @mouseleave="handleCardMouseLeave(index)"
+            data-aos="fade-up"
+            :data-aos-delay="index * 200"
+          >
           <!-- Plan Name -->
           <h3 class="text-2xl font-bold mb-2 font-(--zi-font-display)" :class="plan.featured ? 'text-white' : 'text-(--zi-primary)'">
             {{ plan.name }}
@@ -115,6 +156,7 @@ const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
 
           <!-- CTA Button -->
           <button
+            :ref="(el) => { if (el) pricingCtaRefs[index] = el as HTMLElement }"
             class="w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 font-(--zi-font-body)"
             :class="plan.featured
               ? 'bg-white text-(--zi-primary) hover:shadow-lg'
@@ -122,11 +164,12 @@ const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
           >
             {{ plan.cta }}
           </button>
+          </div>
         </div>
       </div>
 
       <!-- All Plans Include -->
-      <div class="max-w-3xl mx-auto">
+      <div class="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="400">
         <div class="p-8 rounded-2xl border bg-(--zi-background)" style="border-color: var(--zi-border);">
           <h4 class="text-lg font-bold mb-6 text-center font-(--zi-font-display) text-(--zi-primary)">
             All plans include:
@@ -144,9 +187,35 @@ const checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
         </div>
       </div>
     </div>
+    <CustomSectionSeparator />
   </section>
 </template>
 
 <style lang="css" scoped>
 @reference "tailwindcss";
+
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  background: radial-gradient(
+    150px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    var(--zi-accent),
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pricing-card:hover::before {
+  opacity: 1;
+}
 </style>

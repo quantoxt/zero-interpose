@@ -1,14 +1,23 @@
 <script lang="ts" setup>
+const heroCtaRef = ref<HTMLElement>()
+useMagnetic(heroCtaRef, { strength: 0.3 })
 
+// Parallax elements
+const parallaxElements = ref<HTMLElement[]>([])
+const parallaxSpeeds = [0.15, 0.08, 0.2, 0.12, 0.05, 0.1]
+
+onMounted(() => {
+  useParallax(parallaxElements, parallaxSpeeds)
+})
 </script>
 
 <template>
     <section class="relative h-dvh flex items-center overflow-hidden bg-(--zi-surface)">
         <!-- Decorative Background Pattern -->
         <div class="absolute inset-0 opacity-30">
-            <div class="absolute top-0 right-0 w-200 h-200 rounded-full"
+            <div :ref="(el) => { if (el) parallaxElements[0] = el as HTMLElement }" class="absolute top-0 right-0 w-200 h-200 rounded-full"
                 style="background: radial-gradient(circle at center, #8B5CF6 0%, transparent 70%); filter: blur(120px);" />
-            <div class="absolute bottom-0 left-0 w-150 h-150 rounded-full"
+            <div :ref="(el) => { if (el) parallaxElements[1] = el as HTMLElement }" class="absolute bottom-0 left-0 w-150 h-150 rounded-full"
                 style="background: radial-gradient(circle at center, rgba(17, 24, 39, 0.4) 0%, transparent 70%); filter: blur(100px);" />
         </div>
 
@@ -17,12 +26,12 @@
             style="background-image: linear-gradient(var(--zi-border) 1px, transparent 1px), linear-gradient(90deg, var(--zi-border) 1px, transparent 1px); background-size: 60px 60px;" />
 
         <!-- Floating Geometric Elements -->
-        <div class="absolute top-[15%] left-[8%] w-16 h-16 rotate-45 opacity-20" style="border: 2px solid #8B5CF6;" />
-        <div class="absolute top-[25%] right-[12%] w-12 h-12 rounded-full opacity-15"
+        <div :ref="(el) => { if (el) parallaxElements[2] = el as HTMLElement }" class="absolute top-[15%] left-[8%] w-16 h-16 rotate-45 opacity-20" style="border: 2px solid #8B5CF6;" />
+        <div :ref="(el) => { if (el) parallaxElements[3] = el as HTMLElement }" class="absolute top-[25%] right-[12%] w-12 h-12 rounded-full opacity-15"
             style="background-color: #8B5CF6;" />
-        <div class="absolute bottom-[30%] left-[5%] w-20 h-20 opacity-10"
+        <div :ref="(el) => { if (el) parallaxElements[4] = el as HTMLElement }" class="absolute bottom-[30%] left-[5%] w-20 h-20 opacity-10"
             style="border: 2px solid #111827; transform: rotate(15deg);" />
-        <div class="absolute bottom-[20%] right-[8%] w-8 h-8 rotate-12 opacity-25" style="background-color: #111827;" />
+        <div :ref="(el) => { if (el) parallaxElements[5] = el as HTMLElement }" class="absolute bottom-[20%] right-[8%] w-8 h-8 rotate-12 opacity-25" style="background-color: #111827;" />
 
         <!-- Main Content -->
         <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
@@ -66,6 +75,7 @@
                     <!-- CTA Buttons -->
                     <div class="flex flex-wrap gap-3 pt-2">
                         <button
+                            ref="heroCtaRef"
                             class="group relative px-6 py-3 overflow-hidden rounded-lg text-white transition-all duration-300 hover:shadow-xl hover:scale-105 font-(--zi-font-body)"
                             style="background-color: #8B5CF6;">
                             <span class="relative z-10 flex items-center gap-2">
@@ -148,6 +158,14 @@
                 <path
                     d="M0 80L60 72C120 64 240 48 360 42C480 36 600 40 720 44C840 48 960 52 1080 55C1200 58 1320 58 1380 58L1440 58V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0Z"
                     fill="#111827" />
+            </svg>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce z-20 pointer-events-none">
+            <span class="text-xs text-(--zi-text-secondary) font-(--zi-font-body)">Scroll</span>
+            <svg class="w-5 h-5 text-(--zi-accent)" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
             </svg>
         </div>
     </section>

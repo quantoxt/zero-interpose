@@ -22,13 +22,35 @@ const icons: Record<string, string> = {
   wallet: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>',
   'book-open': '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
 }
+
+// Cursor spotlight effect for cards
+const cardRefs = ref<(HTMLElement | null)[]>([])
+
+const handleCardMouseMove = (e: MouseEvent, index: number) => {
+  const card = cardRefs.value[index]
+  if (!card) return
+
+  const rect = card.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  const y = e.clientY - rect.top
+
+  card.style.setProperty('--mouse-x', `${x}px`)
+  card.style.setProperty('--mouse-y', `${y}px`)
+}
+
+const handleCardMouseLeave = (index: number) => {
+  const card = cardRefs.value[index]
+  if (!card) return
+  card.style.removeProperty('--mouse-x')
+  card.style.removeProperty('--mouse-y')
+}
 </script>
 
 <template>
   <section class="relative py-20 sm:py-28 bg-(--zi-background)">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <!-- Section Title -->
-      <div class="text-center mb-16">
+      <div class="text-center mb-16" data-aos="zoom-in">
         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 font-(--zi-font-display) text-(--zi-primary)">
           What you get with <span class="text-(--zi-accent)">Zero Interpose</span>
         </h2>
@@ -40,8 +62,13 @@ const icons: Record<string, string> = {
         <div
           v-for="(value, index) in values"
           :key="index"
-          class="group relative p-8 rounded-2xl border bg-(--zi-background) transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+          :ref="(el) => { if (el) cardRefs[index] = el as HTMLElement }"
+          class="value-card group relative p-8 rounded-2xl border bg-(--zi-background) transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden"
           style="border-color: var(--zi-border);"
+          @mousemove="handleCardMouseMove($event, index)"
+          @mouseleave="handleCardMouseLeave(index)"
+          data-aos="zoom-in"
+          :data-aos-delay="index * 200"
         >
           <!-- Subtle gradient overlay on hover -->
           <div class="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.03) 0%, transparent 100%);" />
@@ -69,4 +96,28 @@ const icons: Record<string, string> = {
 
 <style lang="css" scoped>
 @reference "tailwindcss";
+
+.value-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  background: radial-gradient(
+    150px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    var(--zi-accent),
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.value-card:hover::before {
+  opacity: 1;
+}
 </style>

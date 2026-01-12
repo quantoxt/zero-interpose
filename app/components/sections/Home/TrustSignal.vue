@@ -9,7 +9,7 @@ const testimonial = {
   <section class="relative py-20 sm:py-28 bg-(--zi-background)">
     <div class="max-w-4xl mx-auto px-6 lg:px-8">
       <!-- Testimonial Card -->
-      <div class="relative p-10 sm:p-16 rounded-3xl border" style="border-color: var(--zi-border); background: linear-gradient(135deg, #FAFAFA 0%, #FFFFFF 100%);">
+      <div class="relative p-10 sm:p-16 rounded-3xl border" data-aos="fade-down" style="border-color: var(--zi-border); background: linear-gradient(135deg, #FAFAFA 0%, #FFFFFF 100%);">
         <!-- Decorative Quote Marks -->
         <div class="absolute top-6 left-8 text-8xl sm:text-9xl leading-none opacity-10 font-(--zi-font-display)" style="color: #8B5CF6;">
           "
@@ -38,6 +38,7 @@ const testimonial = {
         <div class="absolute bottom-0 left-0 right-0 h-1 rounded-b-3xl" style="background: linear-gradient(90deg, transparent 0%, #8B5CF6 50%, transparent 100%);" />
       </div>
     </div>
+    <CustomSectionSeparator />
   </section>
 </template>
 

@@ -1,4 +1,37 @@
 <script lang="ts" setup>
+// Initialize AOS and Lenis
+onMounted(() => {
+  if (import.meta.client) {
+    // Initialize AOS
+    import('aos').then((AOS) => {
+      AOS.init({
+        duration: 800,
+        easing: 'ease-out',
+        once: true,
+        offset: 100,
+      })
+    })
+
+    // Initialize Lenis smooth scroll
+    import('lenis').then(({ default: Lenis }) => {
+      const lenis = new Lenis({
+        duration: 1.5,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        smoothTouch: true,
+        touchMultiplier: 2,
+      })
+
+      function raf(time: number) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+      }
+
+      requestAnimationFrame(raf)
+    })
+  }
+})
+
 useSeoMeta({
   title: 'Zero Interpose – Skip the Platform. Claim Your Pay.',
   charset: 'utf-8',
@@ -31,6 +64,7 @@ useHead({
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Outfit:wght@300;400;500;600&display=swap'
     },
+    { rel: 'stylesheet', href: 'https://unpkg.com/aos@next/dist/aos.css' },
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
   ],
 })
@@ -43,14 +77,14 @@ useHead({
 </template>
 
 <style>
-    .page-enter-active,
-    .page-leave-active {
-      transition: all 0.5s;
-    }
-  
-    .page-enter-from,
-    .page-leave-to {
-      opacity: 0;
-      transform: translateY(10%);
-    }
+  .page-enter-active,
+  .page-leave-active {
+    transition: all 0.5s;
+  }
+
+  .page-enter-from,
+  .page-leave-to {
+    opacity: 0;
+    transform: translateY(10%);
+  }
 </style>

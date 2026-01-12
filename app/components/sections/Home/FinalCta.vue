@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 const arrowRight = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+
+const finalCtaRef = ref<HTMLElement>()
+useMagnetic(finalCtaRef, { strength: 0.3 })
 </script>
 
 <template>
@@ -12,19 +15,19 @@ const arrowRight = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="1
 
     <div class="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
       <!-- Headline -->
-      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 font-(--zi-font-display) text-white leading-tight">
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 font-(--zi-font-display) text-white leading-tight" data-aos="zoom-in-up">
         Ready to publish on <span class="underline decoration-2 underline-offset-4" style="text-decoration-color: #8B5CF6;">your terms?</span>
       </h2>
 
       <!-- Subheading -->
-      <p class="text-lg sm:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-(--zi-font-body) font-light">
+      <p class="text-lg sm:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-(--zi-font-body) font-light" data-aos="zoom-in-up" data-aos-delay="100">
         Pick a plan or start with a custom quote—either way, you keep <span class="font-semibold" style="color: #8B5CF6;">100%</span>.
       </p>
 
       <!-- CTA Buttons -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-aos="zoom-in-up" data-aos-delay="200">
         <!-- Primary Button -->
-        <button class="group relative px-8 py-4 overflow-hidden rounded-lg font-medium text-white transition-all duration-300 hover:shadow-xl hover:scale-105 font-(--zi-font-body)" style="background-color: #8B5CF6;">
+        <button ref="finalCtaRef" class="group relative px-8 py-4 overflow-hidden rounded-lg font-medium text-white transition-all duration-300 hover:shadow-xl hover:scale-105 font-(--zi-font-body)" style="background-color: #8B5CF6;">
           <span class="relative z-10 flex items-center gap-2">
             Start Your Author Site
             <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
