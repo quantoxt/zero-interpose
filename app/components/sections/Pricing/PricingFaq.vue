@@ -66,9 +66,11 @@ const faqs = [
             <UiAccordionTrigger class="faq-trigger">
               <span class="question-number">{{ String(index + 1).padStart(2, '0') }}</span>
               <span class="question-text">{{ faq.question }}</span>
-              <span class="trigger-icon">
-                <span class="icon-plus" />
-              </span>
+              <template #icon>
+                <span class="trigger-icon">
+                  <span class="icon-plus" />
+                </span>
+              </template>
             </UiAccordionTrigger>
             <UiAccordionContent class="faq-content">
               <div class="content-inner">
@@ -219,29 +221,28 @@ const faqs = [
   border-top: 1px solid rgba(30, 27, 75, 0.08);
 }
 
-/* Accordion trigger */
-.faq-trigger {
+/* Accordion trigger - override default shadcn styles */
+:deep(.faq-trigger) {
   @apply flex items-center gap-4 sm:gap-6;
   @apply py-6 sm:py-7;
-  @apply cursor-pointer;
-  @apply select-none;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.faq-trigger:hover .question-text {
+:deep(.faq-trigger:hover) .question-text {
   color: var(--editorial-accent);
 }
 
-.faq-trigger:hover .icon-plus {
+:deep(.faq-trigger:hover .icon-plus) {
   background: var(--editorial-accent);
   transform: rotate(90deg) scale(1.1);
 }
 
-.faq-trigger[data-state='open'] {
+:deep(.faq-trigger[data-state='open']) {
   @apply pb-4;
 }
 
-.faq-trigger[data-state='open'] .icon-plus {
+:deep(.faq-trigger[data-state='open'] .icon-plus) {
   transform: rotate(135deg);
   background: var(--editorial-accent);
 }
@@ -256,8 +257,7 @@ const faqs = [
   transition: color 0.3s ease;
 }
 
-.faq-trigger[data-state='open'] ~ .faq-content .question-number,
-.faq-trigger[data-state='open'] .question-number {
+:deep(.faq-trigger[data-state='open']) .question-number {
   color: var(--editorial-accent);
 }
 
@@ -273,21 +273,25 @@ const faqs = [
   transition: color 0.3s ease;
 }
 
-/* Trigger icon */
-.trigger-icon {
-  @apply flex items-center justify-center;
-  @apply w-8 h-8;
-  @apply flex-shrink-0;
+/* Hide default chevron from shadcn */
+:deep(.faq-trigger svg) {
+  display: none;
 }
 
-.icon-plus {
+/* Custom trigger icon */
+:deep(.trigger-icon) {
+  @apply flex items-center justify-center;
+  @apply w-8 h-8 shrink-0;
+}
+
+:deep(.icon-plus) {
   @apply w-5 h-0.5;
   background: var(--editorial-primary);
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.icon-plus::after {
+:deep(.icon-plus::after) {
   content: '';
   position: absolute;
   inset: 0;
@@ -298,11 +302,11 @@ const faqs = [
   transition: background 0.3s ease;
 }
 
-/* ===== Accordion Content ===== */
-.faq-content {
-  @apply overflow-hidden;
+:deep(.faq-trigger[data-state='open'] .icon-plus::after) {
+  background: var(--editorial-accent);
 }
 
+/* ===== Accordion Content ===== */
 .content-inner {
   @apply pb-6 sm:pb-7;
   @apply pl-14 sm:pl-20;
@@ -361,11 +365,6 @@ const faqs = [
 }
 
 /* ===== Animation Enhancements ===== */
-/* Smooth content reveal */
-.faq-content {
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 /* Staggered entrance for items */
 @keyframes fadeInUp {
   from {
@@ -397,7 +396,7 @@ const faqs = [
     font-size: 2.25rem;
   }
 
-  .faq-trigger {
+  :deep(.faq-trigger) {
     @apply py-5 gap-3;
   }
 
@@ -443,12 +442,16 @@ const faqs = [
     border-color: rgba(255, 255, 255, 0.08);
   }
 
-  .icon-plus {
+  :deep(.icon-plus) {
     background: oklch(0.985 0.002 247.839);
   }
 
-  .icon-plus::after {
+  :deep(.icon-plus::after) {
     background: oklch(0.985 0.002 247.839);
+  }
+
+  :deep(.faq-trigger[data-state='open'] .icon-plus::after) {
+    background: var(--editorial-accent);
   }
 }
 </style>
