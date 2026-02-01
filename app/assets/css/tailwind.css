@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -74,6 +76,13 @@
   --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
   --sidebar-border: oklch(0.928 0.006 264.531);
   --sidebar-ring: oklch(0.707 0.022 261.325);
+
+  /* Editorial design tokens for pricing page */
+  --editorial-primary: #1E1B4B;     /* deep indigo */
+  --editorial-accent: #C7A252;      /* gold/brass */
+  --editorial-bg: #FAFAF9;          /* warm stone */
+  --editorial-text: #1C1917;        /* near black */
+  --editorial-muted: #57534E;       /* warm gray */
 }
 
 .dark {
@@ -116,5 +125,31 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Accordion animations - required by shadcn-vue */
+@layer utilities {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
   }
 }
